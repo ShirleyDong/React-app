@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
+import RecipeApp from './App';
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import Recipes from  './Data';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+    ReactDOM.render(
+      <RecipeApp recipes={Recipes}/>,
+      document.getElementById('root')
+    );
