@@ -1,24 +1,12 @@
- var AllRecipes =  [ 
-            {
-                "age": 0, 
-                "id": "1", 
-                "imageUrl": "assets/images/phones/xiajiao.jpg", 
-                "name": "xiajiao", 
-                "snippet": "Xiajiao is a kind of dumplings."
-            }, 
-            {
-                "age": 1, 
-                "id": "2", 
-                "imageUrl": "assets/images/phones/dafu.jpg", 
-                "name": "dafu", 
-                "snippet": "Dafu is a kind of desserts."
-            }, 
-            {
-                "age": 2, 
-                "id": "3", 
-                "imageUrl": "assets/images/phones/chaofan.jpg", 
-                "name": "chaofan", 
-                "snippet": "Rice."
-            }
-        ] ; 
+ var AllRecipes =  
+ [ 
+                {
+                    "age": 3, 
+                    "id": "dell-streak-7", 
+                    "imageUrl": "img/recipes/dell-streak-7.0.jpg", 
+                    "name": "Dell Streak 7", 
+                    "snippet": "Introducing Dell\u2122 Streak 7. Share photos, videos and movies together. It\u2019s small enough to carry around, big enough to gather around."
+                }
+                
+            ] ; 
     export default AllRecipes;
