@@ -42,7 +42,6 @@ import { Link } from 'react-router';
                      <img src={"/recipeSpecs/" + this.props.recipe.imageUrl} 
                          alt={this.props.recipe.name} /> </Link>
                 <Link to={'/recipes/' + this.props.recipe.id}> {this.props.recipe.name}</Link>
-                <p>{this.props.recipe.snippet}</p>
               </li>
                 ) ;
 
