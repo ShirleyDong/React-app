@@ -1,6 +1,6 @@
 {
    
-    "description": "Introducing Dell\u2122 Streak 7. Share photos, videos and movies together. It\u2019s small enough to carry around, big enough to gather around. Android\u2122 2.2-based tablet with over-the-air upgrade capability for future OS releases.  A vibrant 7-inch, multitouch display with full Adobe\u00ae Flash 10.1 pre-installed.  Includes a 1.3 MP front-facing camera for face-to-face chats on popular services such as Qik or Skype.  16 GB of internal storage, plus Wi-Fi, Bluetooth and built-in GPS keeps you in touch with the world around you.  Connect on your terms. Save with 2-year contract or flexibility with prepaid pay-as-you-go plans", 
+    "description": "Daifuku is a popular traditional Japanese sweet; it is soft mochi with anko (sweet red bean paste) stuffing.  There are many varieties of Daifuku, but it’s the same soft mochi exterior with different stuffing.  During the spring time, Japanese confectionery shops sells a seasonal Daifuku with a whole strawberry as the filling, called Strawberry Daifuku (Ichigo Daifuku in Japanese).  The combination of fresh soft mochi, sweet anko, and juicy and tart strawberry is a match made in heaven.", 
     "id": "chaofan", 
     "images": [
         "img/recipes/chaofan.jpg"
@@ -8,7 +8,7 @@
     "name": "chaofan", 
 
     "storage": {
-        "flash": "16000MB", 
-        "ram": "512MB"
+        "flash": "fffff", 
+        "ram": "gggggg"
     }
 }

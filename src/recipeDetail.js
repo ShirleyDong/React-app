@@ -1,28 +1,15 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import request from 'superagent' ; 
-import _ from 'lodash';
-import api from './test/stubAPI';
 
 var Specification = React.createClass({
-	 getInitialState: function() {
-       return { comment: '', name: ''};
-    },
-    handleCommentChange: function(e) {
-         this.setState({comment : e.target.value});
-     },
-     handleNameChange: function(e) {
-         this.setState({name: e.target.value});
-     },
-     onSubmit : function(e) {
-          e.preventDefault();
-          var comment = this.state.comment.trim();
-          var name = this.state.name.trim();
-          if (!comment ) {
-              return;
-          }
-          this.props.commentHandler(comment ,name );
-          this.setState({comment: '', name: ''});
-     },
+  getInitialState: function(){
+    return {items: []};
+  },
+  updateItems: function(newItem){
+    var allItems = this.state.items.concat([newItem]);
+    this.setState({items: allItems});
+  },
 	
 	  render: function(){
 
@@ -37,21 +24,6 @@ var Specification = React.createClass({
 				      <dd>{recipe.storage.ram}</dd>
 				      <dt>Steps</dt>
 				      <dd>{recipe.storage.flash}</dd>
-				      <dt>Add a new comment</dt>
-				      <dd>
-            <div className="form-group">
-              <input type="text"  className="form-control"
-                    placeholder="Comment" value={this.state.comment}
-                    onChange={this.handleCommentChange} ></input>
-            </div>     
-            <div className="form-group">
-              <input type="text"  className="form-control"
-                    placeholder="Your name" value={this.state.name}
-                    onChange={this.handleNameChange} ></input>
-            </div>
-            <button type="submit" className="btn btn-primary"
-                    onClick={this.onSubmit}>Submit</button>
-                    </dd>
 				    </dl>
 				  </li>			  
 				  </ul>            
@@ -60,6 +32,13 @@ var Specification = React.createClass({
 	  	  return (
 	  	       <div>
                   {display}
+
+                  <div>
+                    <h1>Comment</h1>
+                    <CommentView/>
+
+
+                  </div>
 
               </div>
 	         );
@@ -83,7 +62,148 @@ var ImagesSection = React.createClass({
                </div>
                );
 	  }
-})
+});
+
+
+var CommentView = React.createClass({
+    getInitialState:function(){
+      return{
+        comments:[]
+      }
+    },
+    add: function(text){
+      var arr = this.state.comments;
+      arr.push(text);
+      this.setState({comments: arr});
+    },
+
+    removeComment: function(i){
+      console.log('Removing comments:'+i);
+      //arr store the comment want to removed
+      var arr = this.state.comments;
+      arr.splice(i, 1);
+      this.setState({comments: arr});
+
+    },
+
+    updateComment: function(newText, i){
+      console.log('updating comments');
+      var arr = this.state.comments;
+      arr[i] = newText;
+      this.setState({comments: arr});
+    },
+
+    eachComment: function(text,i){
+      return(
+        <CommentItem key={i} index={i} updateCommentText={this.updateComment} deleteFromView={this.removeComment}>
+        {text}
+        </CommentItem>
+        );
+    },
+
+
+
+    render:function(){
+      return(
+        <div>
+        <button onClick={this.add.bind(null,'default')} className="btn btn-info create">Add new</button>
+        <div className = "board">
+        {this.state.comments.map(this.eachComment)}
+        </div>
+        </div>
+
+
+
+        );
+    }
+  });
+
+var Votes = React.createClass({
+  getInitialState: function() {
+    return { votes: 0 }; 
+  },
+  upvote: function() {
+    var newVotes = this.state.votes + 1;
+
+    this.setState({
+      votes: newVotes
+    });
+  },
+  downvote: function() {
+    var newVotes = this.state.votes - 1;
+
+    this.setState({
+      votes: newVotes
+    });
+  },
+  render: function() {
+    return (
+      <div>
+        <span className="glyphicon glyphicon-thumbs-up"
+                    onClick={this.upvote}></span>
+        <strong>{this.state.votes}</strong>
+        <span className="glyphicon glyphicon-thumbs-down"
+                    onClick={this.downvote}></span>
+      </div>
+    );
+  }
+});
+
+  var CommentItem = React.createClass({
+    getInitialState: function(){
+      return{editing:false}
+      
+    },
+    edit: function(){
+      this.setState({editing: true});
+    },
+    delete: function(){
+      console.log('Removing comments');
+      this.props.deleteFromView(this.props.index);
+    },
+    save: function(){
+      this.props.updateCommentText(this.refs.newText.value, this.props.index)
+      this.setState({editing: false});
+    },
+    renderNormal: function(){
+      return(
+        <div class="container">
+          <div class="panel panel-default">
+          <div className="commentText">{this.props.children}</div>
+          <div><Votes /></div>
+        <button onClick={this.edit} className="btn btn-primary">Edit</button>
+        <button onClick={this.delete} className="btn btn-danger">Delete</button>
+          </div>
+        </div>
+
+        );
+
+    },
+
+    renderForm: function(){
+      return(
+        <div class="container">
+          <div class="panel panel-default">
+          <textarea ref="newText" defaultValue={this.props.children}></textarea>
+        <button onClick={this.save} className="btn btn-success">Save</button>
+          </div>
+        </div>
+      );
+      
+    },
+
+    render: function(){
+      if(this.state.editing){
+        return this.renderForm();
+      }else{
+        return this.renderNormal();
+      }
+
+    }
+  });
+
+
+
 
 var RecipeDetail = React.createClass({
 	   getInitialState: function() {
@@ -105,8 +225,9 @@ var RecipeDetail = React.createClass({
   			display =  (
   				<div>
               	   <ImagesSection recipe={recipe} />
-              	   <Specification  recipe={recipe} /> 
-              	   	 
+              	   <Specification  recipe={recipe} />
+              	   
+
                 </div>
                 )
           }
@@ -117,77 +238,6 @@ var RecipeDetail = React.createClass({
 	            );
 	  }
 	});
-	var Comment = React.createClass({
-    handleVote : function() {
-         this.props.upvoteHandler(this.props.comment.id);
-    },
-    render : function() {
-        var lineStyle = {
-             fontSize: '20px', marginLeft: '10px'  };
-        return (
-           <div>
-              <span className="glyphicon glyphicon-thumbs-up"
-                    onClick={this.handleVote}></span>
-                {this.props.comment.upvotes} - by {this.props.comment.author}
-              <span style={lineStyle} >
-                {this.props.comment.comment}
-              </span>
-            </div>                
-           );
-      }
- }) ;
 
-var CommentList = React.createClass({
-    render : function() {
-      var items = this.props.comments.map(function(comment,index) {
-             return <Comment key={index} comment={comment} 
-                      upvoteHandler={this.props.upvoteHandler}  /> ;
-         }.bind(this) )
-      return (
-            <div>
-              {items}
-            </div>
-        );
-    }
-}) ;  
-
-var CommentView = React.createClass({ 
-    componentWillUnmount: function() {
-        api.persist() ;
-    },
-    addComment : function(c,n) {
-      var pid = parseInt( this.props.params.postId, 10);
-      api.addComment(pid,c,n);
-      this.setState({});
-  }, 
-  incrementUpvote : function(commentId) {
-  	   var pid = parseInt( this.props.params.postId, 10);
-       api.upvoteComment(pid,commentId) ;
-       this.setState({});
-  },    
-  render: function(){
-  	   var pid = parseInt(this.props.params.postId,10) ;
-       var post = api.getPost( pid);
-       var line = null ;
-       if (post.link ) {
-           line = <a href={post.link} >
-                        {post.title} </a> ;
-        } else {
-           line = <span>{post.title} </span> ;
-        }
-       var comments = _.sortBy(post.comments, function(comment) {
-                             return - comment.upvotes;
-                        }
-                    ); 
-       return (  
-        <div >
-          <h3>{line} </h3>
-          <CommentList comments={comments} 
-              upvoteHandler={this.incrementUpvote } />
-          <Form post={post}  commentHandler={this.addComment} /> 
-        </div>
-      );
-  }
-});
 
 export default RecipeDetail;

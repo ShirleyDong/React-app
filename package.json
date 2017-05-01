@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "lodash": "^2.4.2",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-router": "^2.6.1",
